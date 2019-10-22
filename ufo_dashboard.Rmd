@@ -18,6 +18,7 @@ library(dplyr)
 library(purrr)
 library(leaflet)
 library(plotly)
+library(DT)
 ufo_sightings <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-06-25/ufo_sightings.csv")
 
 ```
@@ -60,22 +61,13 @@ Column {data-width=350}
 ufo_sightings %>% 
   group_by(state) %>% 
   summarize(n_state = n()) %>% 
-  plot_ly(type = "bar", 
-          x = n_state, 
-          y = n, 
-          color = n_state) %>%  
-          
-  layout(xaxis = list(showline = F, 
-                      showticklabels = F, 
-                      fixedrange = T, 
-                      title = ""),
-         yaxis = list(fixedrange = T, 
-                      title = ""))
+  ggplot() +
+  geom_col(aes(x = state, y = n_state))
 ```
 
-### Chart C
+### Data
 
 ```{r}
-
+datatable(ufo_sightings, extensions = "Scroller", style="bootstrap", class="compact", width="100%", options=list(deferRender=TRUE, scrollY=300, scroller=TRUE))
 ```
 
