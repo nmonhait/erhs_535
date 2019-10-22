@@ -25,7 +25,7 @@ ufo_sightings <- readr::read_csv("https://raw.githubusercontent.com/rfordatascie
 ```{r clean, include = FALSE}
 
 #filter to US only
-ufo_sightings <- ufo_sightings %>% 
+ufo_sightings_us <- ufo_sightings %>% 
   filter(country == 'us')
 
 ```
@@ -39,15 +39,15 @@ Column {data-width=650}
 leaflet() %>% 
   addTiles() %>% 
   fitBounds(-127.44,24.05,-65.30,50.35) %>% 
-  addCircleMarkers(ufo_sightings$longitude, 
-                   ufo_sightings$latitude, 
-                   color = ufo_sightings$encounter_length, 
+  addCircleMarkers(ufo_sightings_us$longitude, 
+                   ufo_sightings_us$latitude, 
+                   color = ufo_sightings_us$encounter_length, 
                    radius = 2, 
                    fill = T,
                    fillOpacity = 0.2,
                    opacity = 0.6,
-                   popup = paste(ufo_sightings$city_area,
-                                 ufo_sightings$date_time, 
+                   popup = paste(ufo_sightings_us$city_area,
+                                 ufo_sightings_us$date_time, 
                                  sep = "")) 
 
 ```
@@ -58,7 +58,7 @@ Column {data-width=350}
 ### Sightings by State
 
 ```{r}
-ufo_sightings %>% 
+ufo_sightings_us %>% 
   group_by(state) %>% 
   summarize(n_state = n()) %>% 
   ggplot() +
@@ -68,6 +68,6 @@ ufo_sightings %>%
 ### Data
 
 ```{r}
-datatable(ufo_sightings, extensions = "Scroller", style="bootstrap", class="compact", width="100%", options=list(deferRender=TRUE, scrollY=300, scroller=TRUE))
+datatable(ufo_sightings_us, extensions = "Scroller", style="bootstrap", class="compact", width="100%", options=list(deferRender=TRUE, scrollY=300, scroller=TRUE))
 ```
 
