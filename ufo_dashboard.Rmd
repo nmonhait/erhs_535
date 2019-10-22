@@ -1,0 +1,81 @@
+---
+title: "US UFO Sightings"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(readr)
+library(shiny)
+library(jsonlite)
+library(maptools)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(purrr)
+library(leaflet)
+library(plotly)
+ufo_sightings <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-06-25/ufo_sightings.csv")
+
+```
+```{r clean, include = FALSE}
+
+#filter to US only
+ufo_sightings <- ufo_sightings %>% 
+  filter(country == 'us')
+
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### All sightings
+
+```{r}
+leaflet() %>% 
+  addTiles() %>% 
+  fitBounds(-127.44,24.05,-65.30,50.35) %>% 
+  addCircleMarkers(ufo_sightings$longitude, 
+                   ufo_sightings$latitude, 
+                   color = ufo_sightings$encounter_length, 
+                   radius = 2, 
+                   fill = T,
+                   fillOpacity = 0.2,
+                   opacity = 0.6,
+                   popup = paste(ufo_sightings$city_area,
+                                 ufo_sightings$date_time, 
+                                 sep = "")) 
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Sightings by State
+
+```{r}
+ufo_sightings %>% 
+  group_by(state) %>% 
+  summarize(n_state = n()) %>% 
+  plot_ly(type = "bar", 
+          x = n_state, 
+          y = n, 
+          color = n_state) %>%  
+          
+  layout(xaxis = list(showline = F, 
+                      showticklabels = F, 
+                      fixedrange = T, 
+                      title = ""),
+         yaxis = list(fixedrange = T, 
+                      title = ""))
+```
+
+### Chart C
+
+```{r}
+
+```
+
