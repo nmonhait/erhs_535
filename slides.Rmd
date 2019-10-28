@@ -6,6 +6,16 @@ output: ioslides_presentation
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+```{r packs, include = FALSE}
+library(tidyverse)
+ufo_sightings <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-06-25/ufo_sightings.csv")
+#filter to US only
+ufo_sightings_us <- ufo_sightings %>% 
+  filter(country == 'us')
+
+ufo_colorado <- ufo_sightings_us %>% 
+  filter(state == "co")
+```
 
 ## *What happens once analysis is done?*
 
@@ -24,17 +34,59 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Goal  
 
-allow end users to interact with data products without involvement of the developer
+allow end users to interact with data products without involvement of the developer  
+
+## Today's data  
+
+
 
 ## Interactivity using R
 
 ## html widgets  
 
+- JavaScript libraries for R  
+- embed them in Rmd/Shiny  
+
 ## plotly  
+
+- interactive ggplot2 
+
+## plotly example  
+```{r clean, include = FALSE}
+sighting_shape <- ufo_sightings %>% 
+  filter(ufo_shape == c("circle", "disk", "fireball"))
+```
+
+```{r plotly,echo=TRUE, message = FALSE, warning=FALSE}
+library(plotly)
+plot <- ggplot(data = sighting_shape, aes(x = ufo_shape)) +
+            geom_bar(position = "dodge") +
+  labs(title = "UFO Sighting Shape",
+        x = "Shape", y = "Count") 
+  
+ggplotly(plot)
+```
+
 
 ## leaflet
 
+- create dynamic maps  
+- pan, zoom, annotate  
+
+## leaflet example  
+
+```{r leaflet, message=FALSE, warning=FALSE, echo=FALSE}
+library(leaflet)
+pal <- colorQuantile("YlOrRd", NULL, n = 8)
+leaflet(ufo_colorado) %>% 
+  addTiles() %>%
+  addCircleMarkers(color = ~pal(encounter_length))
+```
+
 ## flexdashboard  
+
+- group of visualizations  
+- versatile components (static, plotly, leaflet)  
 
 ## Making data products meaningful  
 
