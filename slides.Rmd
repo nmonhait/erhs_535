@@ -13,10 +13,18 @@ knitr::opts_chunk$set(echo = FALSE)
 
 - Rmd report
 - Rmd report with interactive elements
-- Dashboard, interactive plot
+- dashboard, interactive plot
 - Shiny app 
 
-## Considerations 
+## Considerations for end users
+
+- can they interpret output?  
+- do they know how to code?  
+- do they have R/RStudio installed?  
+
+## Goal  
+
+allow end users to interact with data products without involvement of the developer
 
 ## Interactivity using R
 
@@ -35,6 +43,9 @@ knitr::opts_chunk$set(echo = FALSE)
 - size  
 - text  
 - highlighting  
+
+## Create a portfolio!  
+
 
 
 
