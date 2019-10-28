@@ -1,0 +1,40 @@
+---
+title: "Data Products and Interactivity with R"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## *What happens once analysis is done?*
+
+## Data products
+
+- Rmd report
+- Rmd report with interactive elements
+- Dashboard, interactive plot
+- Shiny app 
+
+## Considerations 
+
+## Interactivity using R
+
+## html widgets  
+
+## plotly  
+
+## leaflet
+
+## flexdashboard  
+
+## Making data products meaningful  
+
+- color  
+- information  
+- size  
+- text  
+- highlighting  
+
+
+
