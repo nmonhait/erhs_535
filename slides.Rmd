@@ -1,5 +1,8 @@
 ---
 title: "Data Products and Interactivity with R"
+author: "Nichole Monhait"
+institute: "RStudio, Inc."
+date: "`r Sys.Date()`"
 output: ioslides_presentation
 ---
 
@@ -8,23 +11,56 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 ```{r packs, include = FALSE}
 library(tidyverse)
-ufo_sightings <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-06-25/ufo_sightings.csv")
-#filter to US only
-ufo_sightings_us <- ufo_sightings %>% 
-  filter(country == 'us')
+library(flexdashboard)
+library(plotly)
+library(leaflet)
+library(DT)
 
-ufo_colorado <- ufo_sightings_us %>% 
-  filter(state == "co")
 ```
 
-## *What happens once analysis is done?*
+## 
+
+![](https://colorado.rstudio.com/rstudio/s/f9afbf933dbd95036888f/files/erhs_535/slides_files/stats_languages.jpg){#id .class width=90% height=90%}
+
+## What happens once analysis is done? 
+
+Computational documents  
+- documents with executable code inside of them  
+
+Authors generate reports    
+End users interact with reports    
+
 
 ## Data products
 
-- Rmd report
-- Rmd report with interactive elements
-- dashboard, interactive plot
-- Shiny app 
+Rmd   
+Rmd with parameters  
+Rmd report with html widgets  
+Rmd with Shiny elements  
+Shiny app    
+ *in order of least to most interactive  
+
+
+## Data products
+
+Rmd   
+Rmd with parameters    
+Rmd report with **html widgets**    
+Rmd with Shiny elements      
+Shiny app   
+*in order of least to most interactive    
+
+
+## Interactive elements
+
+html widgets  
+- self-contained, interactive  
+
+Shiny  
+- GUI with live R session  
+- do you need a live R session?  
+- are you changing data more than once per session?  
+
 
 ## Considerations for end users
 
@@ -32,39 +68,100 @@ ufo_colorado <- ufo_sightings_us %>%
 - do they know how to code?  
 - do they have R/RStudio installed?  
 
+
+## Considerations for developers  
+
+- where is the data coming from?  
+- do you need a live R session?  
+- how often will this need to be changed?  
+
+
 ## Goal  
 
-allow end users to interact with data products without involvement of the developer  
+allow end users to interact with data products **without** involvement of the developer  
 
-## Today's data  
+## Data products- today  
+
+Rmd 
+Rmd with parameters  
+**Rmd report with html widgets** using flexdashboard  
+Rmd with Shiny elements  
+Shiny app 
 
 
 
-## Interactivity using R
+## Example data   
+
+Today you will use example data from NUFORC to analyze UFO sightings and product a data product.
+
+There are 80,000 + sightings over the past 70 years within this dataset. 
+
+
+## In-course task #1  
+
+1. read in the data  
+2. create a *new* dataframe with only observations in the United States 
+3. convert date_time and date_documented variables to the correct class  
+4. remove NAs
+
+
+## Example data  
+
+https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-06-25
+
+```{r data, message=FALSE, warning=FALSE, echo = TRUE}
+ufo_sightings <- readr::read_csv(paste0("https://raw.githubusercontent.com/rfordatascience/tidytuesday",
+                                       "/master/data/2019/2019-06-25/ufo_sightings.csv"))
+```
+
+```{r clean, include = FALSE}
+#filter to US only
+ufo_sightings_us <- ufo_sightings %>% 
+  filter(country == 'us')
+#filter to CO only
+ufo_colorado <- ufo_sightings_us %>% 
+  filter(state == "co")
+```
+
+
+## html widgets
+
+Now that the data is clean(er), we're going to use it to create 3 html widgets  
+
 
 ## html widgets  
 
-- JavaScript libraries for R  
-- embed them in Rmd/Shiny  
+JavaScript libraries for R  
+embed them in Rmd/Shiny  
+
+- plotly  
+- leaflet  
+- DataTable  
+
+
+## where to find html widgets  
+
+https://www.htmlwidgets.org/
+
 
 ## plotly  
 
 - interactive ggplot2 
 
-## plotly example  
-```{r clean, include = FALSE}
-sighting_shape <- ufo_sightings %>% 
-  filter(ufo_shape == c("circle", "disk", "fireball"))
+
+## install plotly  
+
+```{r install_plotly, eval = FALSE, echo = TRUE}
+install.packages("plotly")
 ```
 
-```{r plotly,echo=TRUE, message = FALSE, warning=FALSE}
-library(plotly)
-plot <- ggplot(data = sighting_shape, aes(x = ufo_shape)) +
-            geom_bar(position = "dodge") +
-  labs(title = "UFO Sighting Shape",
-        x = "Shape", y = "Count") 
-  
-ggplotly(plot)
+
+## plotly example  
+
+```{r example_plotly}
+p <- ggplot(data = diamonds, aes(x = cut, fill = clarity)) +
+            geom_bar(position = "dodge")
+ggplotly(p)
 ```
 
 
@@ -73,30 +170,149 @@ ggplotly(plot)
 - create dynamic maps  
 - pan, zoom, annotate  
 
+
+## leaflet
+
+```{r install_leaflet, eval = FALSE, echo = TRUE}
+install.packages("leaflet")
+```
+
+
 ## leaflet example  
 
-```{r leaflet, message=FALSE, warning=FALSE, echo=FALSE}
+```{r example_leaf, eval = FALSE}
 library(leaflet)
 pal <- colorQuantile("YlOrRd", NULL, n = 8)
-leaflet(ufo_colorado) %>% 
+leaflet(orstationc) %>% 
+  addTiles() %>%
+  addCircleMarkers(color = ~pal(tann))
+```
+
+
+## DT  
+
+- interactive html tables  
+- filter, search, sort  
+
+
+## DT  
+
+```{r install_dt, eval = FALSE, echo = TRUE}
+install.packages("DT")
+```
+
+
+## DT  
+
+```{r dt_example}
+library(DT)
+datatable(iris, options = list(pageLength = 5))
+```
+
+
+## In-course task #2  
+
+1. install plotly, leaflet, DT  
+2. create an interactive bar chart that of UFO shape counts (choose 3)  
+3. create a leaflet map of encounter_length  
+4. create an interactive data table 
+
+*be sure to clean your labels, add color if you have time!
+
+
+## plotly- UFO shapes   
+
+```{r clean_more, message=FALSE, warning=FALSE, echo=TRUE}
+sighting_shape <- ufo_sightings %>% 
+  filter(ufo_shape == c("circle", "disk", "fireball"))
+```
+
+
+## plotly- UFO shapes 
+
+```{r plotly,echo=TRUE, message = FALSE, warning=FALSE}
+library(plotly)
+plot <- ggplot(data = sighting_shape, aes(x = ufo_shape)) +
+            geom_bar(position = "dodge") +
+  labs(title = "UFO Sighting Shape",
+        x = "Shape", y = "Count") 
+```
+
+
+## plotly- UFO shapes
+
+```{r plotly_plot}
+ggplotly(plot)
+```
+
+
+## leaflet example- encounter length    
+
+```{r leaflet, message=FALSE, warning=FALSE, echo=TRUE}
+library(leaflet)
+pal <- colorQuantile("YlOrRd", NULL, n = 8)
+leaf <- leaflet(ufo_colorado) %>% 
   addTiles() %>%
   addCircleMarkers(color = ~pal(encounter_length))
 ```
+
+## leaflet example- encounter length
+```{r show_leaf, message=FALSE, warning=FALSE}
+leaf
+```
+
+## DT example 
+
+```{r table_example, warning=FALSE, echo=TRUE}
+ufo_table <- datatable(ufo_sightings_us, options = list(pageLength = 50, autowidth = TRUE))
+```
+## DT example  
+
+```{r show_table, warning=FALSE, message=FALSE}
+ufo_table
+```
+
 
 ## flexdashboard  
 
 - group of visualizations  
 - versatile components (static, plotly, leaflet)  
 
+
+## install flexdashboard  
+
+```{r install, eval = FALSE, echo = TRUE}
+install.packages("flexdashboard")
+```
+
+
+## Structure of a dashboard  
+
+https://rmarkdown.rstudio.com/flexdashboard/layouts.html
+
+
 ## Making data products meaningful  
 
-- color  
+- color (viridis)  
 - information  
 - size  
-- text  
+- text (scales) 
 - highlighting  
 
-## Create a portfolio!  
+
+## In-course task #3  
+
+1. Use the UFO data already in your environmnent to recreate the following dashboard  
+2. Once you are finished, alter the dashboard by rearranging plots, filtering to new data, etc.
+
+
+## Final thoughts- create a portfolio!  
+
+RStudio has made a variety of tools for you to showcase your skills using Rmd!  
+- blogdown  
+- bookdown  
+- Rmd resume/CV  
+
 
 
 
