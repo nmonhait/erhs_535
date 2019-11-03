@@ -1,0 +1,7 @@
+---
+title: "params.Rmd"
+output: html_document
+---
+
+The graph below displays the *ufo sightings* reported in `state`. 
+

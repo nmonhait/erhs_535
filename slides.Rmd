@@ -48,21 +48,32 @@ R Markdown (Rmd)
 
 ## Computational Documents in Rmd
 
-Rmd   
-Rmd with parameters  
+**Rmd**     
+Rmd with parameters    
 Rmd report with html widgets  
 Rmd with Shiny elements  
 Shiny app    
- *in order of least to most interactive  
+ *in order of least to most interactive 
+
+## Computational Documents in Rmd
+
+Rmd   
+**Rmd with parameters**    
+Rmd report with html widgets  
+Rmd with Shiny elements  
+Shiny app    
+ 
+ ##
+ 
+ DEMO  
 
 ## Computational Documents in Rmd
 
 Rmd   
 Rmd with parameters    
-Rmd report with **html widgets**    
+**Rmd report with html widgets**    
 Rmd with Shiny elements      
 Shiny app   
-*in order of least to most interactive    
 
 ## Interactive elements
 
@@ -297,6 +308,10 @@ https://rmarkdown.rstudio.com/flexdashboard/layouts.html
 
 1. Use the UFO data already in your environmnent to recreate the following dashboard  
 2. Once you are finished, alter the dashboard by rearranging plots, filtering to new data, etc.
+
+## Helpful links for in-course task  
+
+
 
 ## Final thoughts- create a portfolio!  
 
