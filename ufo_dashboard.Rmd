@@ -1,5 +1,5 @@
 ---
-title: "US UFO Sightings"
+title: "US UFO Sightings in Colorado"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
@@ -9,6 +9,7 @@ output:
 ```{r setup, include=FALSE}
 library(flexdashboard)
 library(readr)
+library(lubridate)
 library(shiny)
 library(jsonlite)
 library(maptools)
@@ -24,50 +25,61 @@ ufo_sightings <- readr::read_csv("https://raw.githubusercontent.com/rfordatascie
 ```
 ```{r clean, include = FALSE}
 
-#filter to US only
-ufo_sightings_us <- ufo_sightings %>% 
-  filter(country == 'us')
+#filter to US only/adjust date/add year column
+ufo_sightings_co <- ufo_sightings %>% 
+  mutate(date_time = mdy_hm(date_time),
+         sighting_year = year(date_time)) %>% 
+  filter(state == 'co')
 
 ```
+
 
 Column {data-width=650}
 -----------------------------------------------------------------------
 
-### All sightings
+### All sightings in Colorado
 
 ```{r}
 leaflet() %>% 
   addTiles() %>% 
-  fitBounds(-127.44,24.05,-65.30,50.35) %>% 
-  addCircleMarkers(ufo_sightings_us$longitude, 
-                   ufo_sightings_us$latitude, 
-                   color = ufo_sightings_us$encounter_length, 
-                   radius = 2, 
+  fitBounds(-102.03,37,-109.03, 41) %>% 
+  addCircleMarkers(ufo_sightings_co$longitude, 
+                   ufo_sightings_co$latitude, 
+                   color = ufo_sightings_co$encounter_length, 
+                   radius = 5, 
                    fill = T,
                    fillOpacity = 0.2,
                    opacity = 0.6,
-                   popup = paste(ufo_sightings_us$city_area,
-                                 ufo_sightings_us$date_time, 
-                                 sep = "")) 
+                   popup = paste(ufo_sightings_co$city_area,
+                                 ufo_sightings_co$year, 
+                                 sep = ",")) 
 
 ```
 
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Sightings by State
+### Sightings in Colorado by Year
 
 ```{r}
-ufo_sightings_us %>% 
-  group_by(state) %>% 
-  summarize(n_state = n()) %>% 
+ufo_sightings_co %>% 
+  group_by(sighting_year) %>% 
+  summarize(n_year = n()) %>% 
+  ungroup() %>% 
   ggplot() +
-  geom_col(aes(x = state, y = n_state))
+  geom_line(aes(x = sighting_year, y = n_year)) +
+  labs(x = "Year", y = "Sighting Count")
+  
+
 ```
 
 ### Data
+```{r}
+ufo_sightings_filtered <- ufo_sightings_co %>% 
+  select(city_area, sighting_year)
+```
 
 ```{r}
-datatable(ufo_sightings_us, extensions = "Scroller", style="bootstrap", class="compact", width="100%", options=list(deferRender=TRUE, scrollY=300, scroller=TRUE))
+datatable(ufo_sightings_filtered, extensions = "Scroller", style="bootstrap", class="compact", width="100%", options=list(deferRender=TRUE, scrollY=300, scroller=TRUE))
 ```
 
