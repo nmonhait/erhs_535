@@ -1,9 +1,11 @@
 ---
 title: "Data Products and Interactivity with R"
 author: "Nichole Monhait"
-institute: "RStudio, Inc."
 date: "`r Sys.Date()`"
-output: ioslides_presentation
+output:
+  ioslides_presentation
+  always_allow_html: yes
+institute: RStudio, Inc.
 ---
 
 ```{r setup, include=FALSE}
@@ -88,14 +90,11 @@ Rmd with parameters
 Rmd with Shiny elements  
 Shiny app 
 
-
-
 ## Example data   
 
 Today you will use example data from NUFORC to analyze UFO sightings and product a data product.
 
 There are 80,000 + sightings over the past 70 years within this dataset. 
-
 
 ## In-course task #1  
 
@@ -103,7 +102,6 @@ There are 80,000 + sightings over the past 70 years within this dataset.
 2. create a *new* dataframe with only observations in the United States 
 3. convert date_time and date_documented variables to the correct class  
 4. remove NAs
-
 
 ## Example data  
 
@@ -115,12 +113,10 @@ ufo_sightings <- readr::read_csv(paste0("https://raw.githubusercontent.com/rford
 ```
 
 ```{r clean, include = FALSE}
-#filter to US only
 ufo_sightings_us <- ufo_sightings %>% 
-  filter(country == 'us')
-#filter to CO only
-ufo_colorado <- ufo_sightings_us %>% 
-  filter(state == "co")
+  mutate(date_time = mdy_hm(date_time),
+         sighting_year = year(date_time)) 
+  
 ```
 
 
@@ -188,12 +184,10 @@ leaflet(orstationc) %>%
   addCircleMarkers(color = ~pal(tann))
 ```
 
-
 ## DT  
 
 - interactive html tables  
 - filter, search, sort  
-
 
 ## DT  
 
@@ -201,14 +195,12 @@ leaflet(orstationc) %>%
 install.packages("DT")
 ```
 
-
 ## DT  
 
 ```{r dt_example}
 library(DT)
 datatable(iris, options = list(pageLength = 5))
 ```
-
 
 ## In-course task #2  
 
@@ -219,14 +211,12 @@ datatable(iris, options = list(pageLength = 5))
 
 *be sure to clean your labels, add color if you have time!
 
-
 ## plotly- UFO shapes   
 
 ```{r clean_more, message=FALSE, warning=FALSE, echo=TRUE}
 sighting_shape <- ufo_sightings %>% 
   filter(ufo_shape == c("circle", "disk", "fireball"))
 ```
-
 
 ## plotly- UFO shapes 
 
@@ -238,13 +228,11 @@ plot <- ggplot(data = sighting_shape, aes(x = ufo_shape)) +
         x = "Shape", y = "Count") 
 ```
 
-
 ## plotly- UFO shapes
 
 ```{r plotly_plot}
 ggplotly(plot)
 ```
-
 
 ## leaflet example- encounter length    
 
@@ -272,19 +260,16 @@ ufo_table <- datatable(ufo_sightings_us, options = list(pageLength = 50, autowid
 ufo_table
 ```
 
-
 ## flexdashboard  
 
 - group of visualizations  
 - versatile components (static, plotly, leaflet)  
-
 
 ## install flexdashboard  
 
 ```{r install, eval = FALSE, echo = TRUE}
 install.packages("flexdashboard")
 ```
-
 
 ## Structure of a dashboard  
 
@@ -299,12 +284,10 @@ https://rmarkdown.rstudio.com/flexdashboard/layouts.html
 - text (scales) 
 - highlighting  
 
-
 ## In-course task #3  
 
 1. Use the UFO data already in your environmnent to recreate the following dashboard  
 2. Once you are finished, alter the dashboard by rearranging plots, filtering to new data, etc.
-
 
 ## Final thoughts- create a portfolio!  
 
