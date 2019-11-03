@@ -180,11 +180,14 @@ https://rmarkdown.rstudio.com/flexdashboard/layouts.html
 ## In-course task #3  
 
 1. Use the UFO data already in your environmnent to recreate the following dashboard  
-2. Once you are finished, alter the dashboard by rearranging plots, filtering to new data, etc.
+2. If you finish, alter the dashboard by rearranging plots, filtering to new data, etc.
 
 ## Helpful links for in-course task  
 
-
+https://rmarkdown.rstudio.com/flexdashboard/  
+https://www.htmlwidgets.org/index.html  
+https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html  
+https://rviews.rstudio.com/2019/09/19/intro-to-ggforce/ 
 
 ## Final thoughts- create a portfolio!  
 
