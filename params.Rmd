@@ -1,8 +1,9 @@
 ---
-title: "UFO Sightings in `r params$state"
+title: "UFO Sightings in `r params$state`"
 output: html_document
 params: 
-  state: "co"
+  state: 'co'
+
 ---
 
 ```{r setup, include=FALSE}

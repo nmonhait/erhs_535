@@ -101,7 +101,7 @@ ufo_sightings_us <- ufo_sightings %>%
 
 1. read in the data  
 2. create a *new* dataframe with only observations in the United States 
-3. convert date_time and date_documented variables to the correct class  
+3. convert `date_time` and `date_documented` variables to the correct class  
 4. generate a parameterized Rmd using the `ufo_shape` variable
 
 ## Computational Documents in Rmd
@@ -138,8 +138,8 @@ https://www.htmlwidgets.org/
 ## In-course task #2  
 
 1. install plotly, leaflet, DT  
-2. create an interactive bar chart that of UFO shape counts (choose 3)  
-3. create a leaflet map of encounter_length  
+2. create an interactive bar chart that of UFO `shape` counts (choose 3)  
+3. create a leaflet map of `encounter_length`  
 4. create an interactive data table 
 
 ## flexdashboard  
