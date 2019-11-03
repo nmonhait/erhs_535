@@ -2,9 +2,7 @@
 title: "Data Products and Interactivity with R"
 author: "Nichole Monhait"
 date: "`r Sys.Date()`"
-output:
-  ioslides_presentation
-  always_allow_html: yes
+output: ioslides_presentation
 institute: RStudio, Inc.
 ---
 
@@ -17,6 +15,7 @@ library(flexdashboard)
 library(plotly)
 library(leaflet)
 library(DT)
+library(lubridate)
 
 ```
 
@@ -47,7 +46,8 @@ End users interact with reports
 ## Goal  
 
 allow end users to interact with data products **without** involvement of the developer  
-## Outline  
+
+## Outline    
 
 Computational Documents/ Reproducibility    
 R Markdown    
@@ -55,11 +55,7 @@ Demo of Parameterized Rmd
 html widgets in R  
 flexdashboard  
 
-## A note on reproducibility  
-
-## 
-
-R Markdown (Rmd)  
+## R Markdown (Rmd)  
 
 ## Computational Documents in Rmd
 
@@ -68,7 +64,6 @@ Rmd with parameters
 Rmd report with html widgets  
 Rmd with Shiny elements  
 Shiny app    
- *in order of least to most interactive 
 
 ## Computational Documents in Rmd
 
@@ -78,9 +73,7 @@ Rmd report with html widgets
 Rmd with Shiny elements  
 Shiny app    
  
-##
- 
- DEMO  
+## DEMO  
  
 ## Example data   
 
@@ -128,10 +121,6 @@ Shiny
 - GUI with live R session  
 - do you need a live R session?  
 - are you changing data more than once per session?  
-
-## html widgets
-
-Now that the data is clean(er), we're going to use it to create 3 html widgets  
 
 ## html widgets  
 
@@ -188,6 +177,7 @@ https://rmarkdown.rstudio.com/flexdashboard/
 https://www.htmlwidgets.org/index.html  
 https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html  
 https://rviews.rstudio.com/2019/09/19/intro-to-ggforce/ 
+https://rstudio.com/resources/cheatsheets/  
 
 ## Final thoughts- create a portfolio!  
 
