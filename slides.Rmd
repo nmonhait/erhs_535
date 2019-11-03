@@ -32,8 +32,21 @@ Computational documents
 Authors generate reports    
 End users interact with reports    
 
+## Outline  
 
-## Data products
+Computational Documents/ Reproducibility    
+R Markdown    
+Demo of Parameterized Rmd    
+html widgets in R  
+flexdashboard  
+
+## A note on reproducibility  
+
+## 
+
+R Markdown (Rmd)  
+
+## Computational Documents in Rmd
 
 Rmd   
 Rmd with parameters  
@@ -42,8 +55,7 @@ Rmd with Shiny elements
 Shiny app    
  *in order of least to most interactive  
 
-
-## Data products
+## Computational Documents in Rmd
 
 Rmd   
 Rmd with parameters    
@@ -51,7 +63,6 @@ Rmd report with **html widgets**
 Rmd with Shiny elements      
 Shiny app   
 *in order of least to most interactive    
-
 
 ## Interactive elements
 
@@ -70,13 +81,11 @@ Shiny
 - do they know how to code?  
 - do they have R/RStudio installed?  
 
-
 ## Considerations for developers  
 
 - where is the data coming from?  
 - do you need a live R session?  
 - how often will this need to be changed?  
-
 
 ## Goal  
 
@@ -101,7 +110,6 @@ There are 80,000 + sightings over the past 70 years within this dataset.
 1. read in the data  
 2. create a *new* dataframe with only observations in the United States 
 3. convert date_time and date_documented variables to the correct class  
-4. remove NAs
 
 ## Example data  
 
@@ -119,11 +127,9 @@ ufo_sightings_us <- ufo_sightings %>%
   
 ```
 
-
 ## html widgets
 
 Now that the data is clean(er), we're going to use it to create 3 html widgets  
-
 
 ## html widgets  
 
@@ -134,21 +140,24 @@ embed them in Rmd/Shiny
 - leaflet  
 - DataTable  
 
-
 ## where to find html widgets  
 
 https://www.htmlwidgets.org/
-
 
 ## plotly  
 
 - interactive ggplot2 
 
-
 ## install plotly  
 
 ```{r install_plotly, eval = FALSE, echo = TRUE}
 install.packages("plotly")
+```
+
+## plotly code  
+
+```{r plotly_code, eval = FALSE, echo = TRUE}
+
 ```
 
 
