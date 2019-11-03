@@ -32,6 +32,21 @@ Computational documents
 Authors generate reports    
 End users interact with reports    
 
+## Considerations for end users
+
+- can they interpret output?  
+- do they know how to code?  
+- do they have R/RStudio installed?  
+
+## Considerations for developers  
+
+- where is the data coming from?  
+- do you need a live R session?  
+- how often will this need to be changed?  
+
+## Goal  
+
+allow end users to interact with data products **without** involvement of the developer  
 ## Outline  
 
 Computational Documents/ Reproducibility    
@@ -63,9 +78,38 @@ Rmd report with html widgets
 Rmd with Shiny elements  
 Shiny app    
  
- ##
+##
  
  DEMO  
+ 
+## Example data   
+
+Today you will use example data from NUFORC to analyze UFO sightings and product a data product.
+
+There are 80,000 + sightings over the past 70 years within this dataset. 
+
+## Example data  
+
+https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-06-25
+
+```{r data, message=FALSE, warning=FALSE, echo = TRUE}
+ufo_sightings <- readr::read_csv(paste0("https://raw.githubusercontent.com/rfordatascience/tidytuesday",
+                                       "/master/data/2019/2019-06-25/ufo_sightings.csv"))
+```
+
+```{r clean, include = FALSE}
+ufo_sightings_us <- ufo_sightings %>% 
+  mutate(date_time = mdy_hm(date_time),
+         sighting_year = year(date_time)) 
+  
+```
+
+## In-course task #1  
+
+1. read in the data  
+2. create a *new* dataframe with only observations in the United States 
+3. convert date_time and date_documented variables to the correct class  
+4. generate a parameterized Rmd using the `ufo_shape` variable
 
 ## Computational Documents in Rmd
 
@@ -85,59 +129,6 @@ Shiny
 - do you need a live R session?  
 - are you changing data more than once per session?  
 
-
-## Considerations for end users
-
-- can they interpret output?  
-- do they know how to code?  
-- do they have R/RStudio installed?  
-
-## Considerations for developers  
-
-- where is the data coming from?  
-- do you need a live R session?  
-- how often will this need to be changed?  
-
-## Goal  
-
-allow end users to interact with data products **without** involvement of the developer  
-
-## Data products- today  
-
-Rmd 
-Rmd with parameters  
-**Rmd report with html widgets** using flexdashboard  
-Rmd with Shiny elements  
-Shiny app 
-
-## Example data   
-
-Today you will use example data from NUFORC to analyze UFO sightings and product a data product.
-
-There are 80,000 + sightings over the past 70 years within this dataset. 
-
-## In-course task #1  
-
-1. read in the data  
-2. create a *new* dataframe with only observations in the United States 
-3. convert date_time and date_documented variables to the correct class  
-
-## Example data  
-
-https://github.com/rfordatascience/tidytuesday/tree/master/data/2019/2019-06-25
-
-```{r data, message=FALSE, warning=FALSE, echo = TRUE}
-ufo_sightings <- readr::read_csv(paste0("https://raw.githubusercontent.com/rfordatascience/tidytuesday",
-                                       "/master/data/2019/2019-06-25/ufo_sightings.csv"))
-```
-
-```{r clean, include = FALSE}
-ufo_sightings_us <- ufo_sightings %>% 
-  mutate(date_time = mdy_hm(date_time),
-         sighting_year = year(date_time)) 
-  
-```
-
 ## html widgets
 
 Now that the data is clean(er), we're going to use it to create 3 html widgets  
@@ -155,130 +146,12 @@ embed them in Rmd/Shiny
 
 https://www.htmlwidgets.org/
 
-## plotly  
-
-- interactive ggplot2 
-
-## install plotly  
-
-```{r install_plotly, eval = FALSE, echo = TRUE}
-install.packages("plotly")
-```
-
-## plotly code  
-
-```{r plotly_code, eval = FALSE, echo = TRUE}
-
-```
-
-
-## plotly example  
-
-```{r example_plotly}
-p <- ggplot(data = diamonds, aes(x = cut, fill = clarity)) +
-            geom_bar(position = "dodge")
-ggplotly(p)
-```
-
-
-## leaflet
-
-- create dynamic maps  
-- pan, zoom, annotate  
-
-
-## leaflet
-
-```{r install_leaflet, eval = FALSE, echo = TRUE}
-install.packages("leaflet")
-```
-
-
-## leaflet example  
-
-```{r example_leaf, eval = FALSE}
-library(leaflet)
-pal <- colorQuantile("YlOrRd", NULL, n = 8)
-leaflet(orstationc) %>% 
-  addTiles() %>%
-  addCircleMarkers(color = ~pal(tann))
-```
-
-## DT  
-
-- interactive html tables  
-- filter, search, sort  
-
-## DT  
-
-```{r install_dt, eval = FALSE, echo = TRUE}
-install.packages("DT")
-```
-
-## DT  
-
-```{r dt_example}
-library(DT)
-datatable(iris, options = list(pageLength = 5))
-```
-
 ## In-course task #2  
 
 1. install plotly, leaflet, DT  
 2. create an interactive bar chart that of UFO shape counts (choose 3)  
 3. create a leaflet map of encounter_length  
 4. create an interactive data table 
-
-*be sure to clean your labels, add color if you have time!
-
-## plotly- UFO shapes   
-
-```{r clean_more, message=FALSE, warning=FALSE, echo=TRUE}
-sighting_shape <- ufo_sightings %>% 
-  filter(ufo_shape == c("circle", "disk", "fireball"))
-```
-
-## plotly- UFO shapes 
-
-```{r plotly,echo=TRUE, message = FALSE, warning=FALSE}
-library(plotly)
-plot <- ggplot(data = sighting_shape, aes(x = ufo_shape)) +
-            geom_bar(position = "dodge") +
-  labs(title = "UFO Sighting Shape",
-        x = "Shape", y = "Count") 
-```
-
-## plotly- UFO shapes
-
-```{r plotly_plot}
-ggplotly(plot)
-```
-
-## leaflet example- encounter length    
-
-```{r leaflet, message=FALSE, warning=FALSE, echo=TRUE}
-library(leaflet)
-pal <- colorQuantile("YlOrRd", NULL, n = 8)
-leaf <- leaflet(ufo_colorado) %>% 
-  addTiles() %>%
-  addCircleMarkers(color = ~pal(encounter_length))
-```
-
-## leaflet example- encounter length
-```{r show_leaf, message=FALSE, warning=FALSE}
-leaf
-```
-
-## DT example 
-
-```{r table_example, warning=FALSE, echo=TRUE}
-ufo_table <- datatable(ufo_sightings_us, options = list(pageLength = 50, autowidth = TRUE))
-```
-## DT example  
-
-```{r show_table, warning=FALSE, message=FALSE}
-ufo_table
-```
 
 ## flexdashboard  
 
