@@ -20,6 +20,8 @@ library(purrr)
 library(leaflet)
 library(plotly)
 library(DT)
+library(ggthemes)
+library(viridis)
 ufo_sightings <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-06-25/ufo_sightings.csv")
 
 ```
@@ -40,9 +42,11 @@ Column {data-width=650}
 ### All sightings in Colorado
 
 ```{r}
+pal <- colorQuantile("YlOrRd", NULL, n = 8)
 leaflet() %>% 
   addTiles() %>% 
   fitBounds(-102.03,37,-109.03, 41) %>% 
+  addTiles() %>% 
   addCircleMarkers(ufo_sightings_co$longitude, 
                    ufo_sightings_co$latitude, 
                    color = ufo_sightings_co$encounter_length, 
@@ -51,7 +55,7 @@ leaflet() %>%
                    fillOpacity = 0.2,
                    opacity = 0.6,
                    popup = paste(ufo_sightings_co$city_area,
-                                 ufo_sightings_co$year, 
+                                 ufo_sightings_co$sighting_year, 
                                  sep = ",")) 
 
 ```
@@ -68,7 +72,8 @@ ufo_sightings_co %>%
   ungroup() %>% 
   ggplot() +
   geom_line(aes(x = sighting_year, y = n_year)) +
-  labs(x = "Year", y = "Sighting Count")
+  labs(title = "UFO Sightings in Colorado per Year", x = "Year", y = "Sighting Count") +
+  theme_few()
   
 
 ```
@@ -80,6 +85,6 @@ ufo_sightings_filtered <- ufo_sightings_co %>%
 ```
 
 ```{r}
-datatable(ufo_sightings_filtered, extensions = "Scroller", style="bootstrap", class="compact", width="100%", options=list(deferRender=TRUE, scrollY=300, scroller=TRUE))
+datatable(ufo_sightings_filtered, colnames = c("Location", "Year"), extensions = "Scroller", style="bootstrap", class="compact", width="100%", options=list(deferRender=TRUE, scrollY=300, scroller=TRUE))
 ```
 
