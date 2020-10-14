@@ -1,9 +1,8 @@
 ---
-title: "UFO Sightings in `r params$state`"
+title: "`r params$ufo_shape` UFO Sightings "
 output: html_document
 params: 
-  state: 'co'
-
+  ufo_shape: "circle"
 ---
 
 ```{r setup, include=FALSE}
@@ -19,19 +18,19 @@ library(lubridate)
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 ufo_sightings <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-06-25/ufo_sightings.csv")
-ufo_sightings_state <- ufo_sightings %>% 
+ufo_sightings_shape <- ufo_sightings %>% 
   mutate(date_time = mdy_hm(date_time),
          sighting_year = year(date_time)) %>% 
-  filter(state == params$state)
+  filter(ufo_shape == params$ufo_shape)
 ```
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
-ufo_sightings_state %>% 
-  group_by(state) %>% 
-  summarize(n_state = n()) %>% 
+ufo_sightings_shape %>% 
+  group_by(ufo_shape) %>% 
+  summarize(n_shape = n()) %>% 
   ungroup() %>% 
   ggplot() +
-  geom_col(aes(x = state, y = n_state))
+  geom_col(aes(x = ufo_shape, y = n_shape))
 ```
 
-The graph above displays the *ufo sightings* reported in `r params$state`. 
+The graph above displays the *ufo sightings* reported for shape: `r params$ufo_shape`. 
