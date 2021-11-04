@@ -50,3 +50,6 @@ ggplotly(p)
 
 #DT
 datatable(ufo_sightings_us, options = list(pageLength = 5))
+
+#exercise 3----
+##see ufo_dashboard.Rmd
